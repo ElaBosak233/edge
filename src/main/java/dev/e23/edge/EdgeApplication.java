@@ -9,9 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableJpaAuditing
 @EnableWebSecurity
 public class EdgeApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(EdgeApplication.class, args);
     }
-
 }
