@@ -17,13 +17,13 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
-                .addResourceLocations("file:./dist/")
+                .addResourceLocations("file:dist/")
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver() {
                     @Override
                     protected Resource getResource(String resourcePath, Resource location) throws IOException {
                         Resource requestedResource = location.createRelative(resourcePath);
-                        return requestedResource.exists() && requestedResource.isReadable() ? requestedResource : new FileSystemResource("./dist/index.html");
+                        return requestedResource.exists() && requestedResource.isReadable() ? requestedResource : new FileSystemResource("dist/index.html");
                     }
                 });
     }
