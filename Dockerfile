@@ -17,6 +17,10 @@ FROM openjdk:21-jdk-slim AS backend-builder
 # 设置工作目录
 WORKDIR /app
 
+COPY . .
+
+RUN chmod 777 ./mvnw
+
 # 构建后端
 RUN ./mvnw clean package -DskipTests
 
