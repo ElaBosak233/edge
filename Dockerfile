@@ -1,44 +1,39 @@
-# 使用官方的 OpenJDK 22 作为基础镜像
-FROM eclipse-temurin:22-jdk-focal as build-backend
+# 第一阶段：构建前端
+FROM node:18 AS frontend-builder
 
 # 设置工作目录
 WORKDIR /app
 
-# 将后端项目复制到容器中
-COPY . /app
+# 复制前端文件
+COPY client/package*.json ./
+COPY client/ ./
 
-# 编译后端项目
+# 安装前端依赖并构建前端
+RUN npm install && npm run build
+
+# 第二阶段：构建后端并将前端文件复制到后端静态资源目录
+FROM openjdk:21-jdk-slim AS backend-builder
+
+# 设置工作目录
+WORKDIR /app
+
+# 构建后端
 RUN ./mvnw clean package -DskipTests
 
-# 从基础镜像开始构建前端
-FROM node:16 as build-frontend
-
-# 设置工作目录
-WORKDIR /app/client
-
-# 将前端项目复制到容器中
-COPY ./client /app/client
-
-# 安装前端依赖
-RUN npm install
-
-# 构建前端项目
-RUN npm run build
-
-# 最终镜像，使用 OpenJDK 22
-FROM eclipse-temurin:22-jdk-focal
+# 运行阶段：将构建好的前端和后端文件合并到一个镜像中
+FROM openjdk:21-jdk-slim
 
 # 设置工作目录
 WORKDIR /app
 
-# 将后端jar包复制到容器中
-COPY --from=build-backend /app/target/*.jar /app/app.jar
+# 复制构建好的后端jar文件
+COPY --from=backend-builder /app/target/*.jar app.jar
 
-# 添加前端构建产物
-COPY --from=build-frontend /app/client/dist /app/dist
+# 复制前端构建结果到后端的静态资源目录
+COPY --from=frontend-builder /app/build /dist
 
 # 暴露端口
 EXPOSE 8080
 
-# 运行 Spring Boot 应用
+# 运行Spring Boot应用
 ENTRYPOINT ["java", "-jar", "app.jar"]
