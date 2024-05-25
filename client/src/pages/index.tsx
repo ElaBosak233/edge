@@ -17,7 +17,7 @@ export default function Page() {
 				<Stack align={"center"}>
 					<Text size="3rem">欢迎登录 Edge，你可以畅所欲言</Text>
 					<Text size="2rem">
-						Java 17（Spring MVC × Spring JPA），React 18（Typescript
+						Java 21（Spring MVC × Spring JPA），React 18（Typescript
 						× Mantine），SQLite3
 					</Text>
 					<Text size="2rem">登录后即可使用所有功能</Text>
