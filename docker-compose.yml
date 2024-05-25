@@ -1,9 +1,7 @@
 version: "3.0"
 services:
-  cloudsdale:
+  edge:
     image: edge:latest
     restart: always
     ports:
       - "80:8080"
-    volumes:
-      - "./db.sqlite3:/app/db.sqlite3"
