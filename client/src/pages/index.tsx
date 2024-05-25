@@ -1,5 +1,4 @@
-import { BackgroundImage, Box, Stack, Text } from "@mantine/core";
-import mlp from "@/assets/mlp.png";
+import { Image, Box, Stack, Text } from "@mantine/core";
 
 export default function Page() {
 	return (
@@ -25,7 +24,13 @@ export default function Page() {
 						此项目仅仅是一个 Java
 						实践周的作业，不会长期维护，仅供学习参考，并且安全性未经验证，请勿在生产环境使用
 					</Text>
-					<BackgroundImage src={mlp} w={512} h={300} />
+					<Image
+						src={
+							"https://p.sda1.dev/17/a67829effd62b4aff0fecf52f5609742/mlp.png"
+						}
+						w={512}
+						h={300}
+					/>
 				</Stack>
 			</Box>
 		</>

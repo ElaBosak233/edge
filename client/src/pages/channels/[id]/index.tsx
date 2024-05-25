@@ -14,8 +14,6 @@ import {
 	ThemeIcon,
 	Avatar,
 } from "@mantine/core";
-import { mdiBullhorn, mdiSend } from "@mdi/js";
-import Icon from "@mdi/react";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import CryptoJS from "crypto-js";
@@ -24,6 +22,7 @@ import React from "react";
 import { useForm } from "@mantine/form";
 import MarkdownRender from "@/components/utils/MarkdownRender";
 import dayjs from "dayjs";
+import MDIcon from "@/components/ui/MDIcon";
 
 export default function Page() {
 	const channelApi = useChannelApi();
@@ -126,7 +125,7 @@ export default function Page() {
 						<Stack m={5}>
 							<Group>
 								<ThemeIcon variant={"transparent"}>
-									<Icon path={mdiBullhorn} />
+									<MDIcon>campaign</MDIcon>
 								</ThemeIcon>
 								<Text fw={600} size="1.25rem">
 									{channel?.name}
@@ -238,7 +237,7 @@ export default function Page() {
 									variant={"transparent"}
 									type={"submit"}
 								>
-									<Icon path={mdiSend} />
+									<MDIcon>send</MDIcon>
 								</ActionIcon>
 							</Flex>
 						</form>

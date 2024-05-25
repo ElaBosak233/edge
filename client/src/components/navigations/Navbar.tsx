@@ -1,5 +1,4 @@
 import {
-	ActionIcon,
 	Avatar,
 	BackgroundImage,
 	Badge,
@@ -13,13 +12,12 @@ import {
 	ThemeIcon,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import Icon from "@mdi/react";
-import { mdiAccount, mdiLogout } from "@mdi/js";
 import { Channel } from "@/types/channel";
 import { useEffect, useState } from "react";
 import { useChannelApi } from "@/api/channel";
 import { useAuthStore } from "@/stores/auth";
 import CryptoJS from "crypto-js";
+import MDIcon from "@/components/ui/MDIcon";
 
 export default function Navbar() {
 	const channelApi = useChannelApi();
@@ -149,7 +147,7 @@ export default function Navbar() {
 							<Menu.Dropdown>
 								<Group c={"brand"} p={10}>
 									<ThemeIcon variant="transparent">
-										<Icon path={mdiAccount} />
+										<MDIcon>person</MDIcon>
 									</ThemeIcon>
 									<Text fw={600}>
 										{authStore?.user?.nickname}
@@ -163,7 +161,7 @@ export default function Navbar() {
 											variant="transparent"
 											color="red"
 										>
-											<Icon path={mdiLogout} />
+											<MDIcon>logout</MDIcon>
 										</ThemeIcon>
 									}
 									onClick={logout}

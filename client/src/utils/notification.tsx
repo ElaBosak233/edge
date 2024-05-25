@@ -1,13 +1,5 @@
 import { notifications, showNotification } from "@mantine/notifications";
-import {
-	mdiCheck,
-	mdiClose,
-	mdiExclamation,
-	mdiInformationBoxOutline,
-	mdiInformationOutline,
-	mdiInformationSymbol,
-} from "@mdi/js";
-import Icon from "@mdi/react";
+import MDIcon from "@/components/ui/MDIcon";
 
 export function showErrNotification({
 	id,
@@ -24,7 +16,7 @@ export function showErrNotification({
 			title: title || "发生了错误",
 			message: message,
 			color: "red",
-			icon: <Icon path={mdiClose} />,
+			icon: <MDIcon>close</MDIcon>,
 			autoClose: 2000,
 			withCloseButton: true,
 			loading: false,
@@ -35,7 +27,7 @@ export function showErrNotification({
 		title: title || "发生了错误",
 		message: message,
 		color: "red",
-		icon: <Icon path={mdiClose} />,
+		icon: <MDIcon>close</MDIcon>,
 	});
 }
 
@@ -54,7 +46,7 @@ export function showSuccessNotification({
 			title: title || "成功",
 			message: message,
 			color: "green",
-			icon: <Icon path={mdiCheck} />,
+			icon: <MDIcon>check</MDIcon>,
 			autoClose: 2000,
 			withCloseButton: true,
 			loading: false,
@@ -65,7 +57,7 @@ export function showSuccessNotification({
 		title: title || "成功",
 		message: message,
 		color: "green",
-		icon: <Icon path={mdiCheck} />,
+		icon: <MDIcon>check</MDIcon>,
 	});
 }
 
@@ -84,7 +76,7 @@ export function showInfoNotification({
 			title: title || "信息",
 			message: message,
 			color: "blue",
-			icon: <Icon path={mdiInformationOutline} />,
+			icon: <MDIcon>info_i</MDIcon>,
 			autoClose: 2000,
 			withCloseButton: true,
 			loading: false,
@@ -95,7 +87,7 @@ export function showInfoNotification({
 		title: title || "信息",
 		message: message,
 		color: "blue",
-		icon: <Icon path={mdiInformationSymbol} />,
+		icon: <MDIcon>info_i</MDIcon>,
 	});
 }
 
@@ -114,7 +106,7 @@ export function showWarnNotification({
 			title: title || "警告",
 			message: message,
 			color: "orange",
-			icon: <Icon path={mdiExclamation} />,
+			icon: <MDIcon>exclamation</MDIcon>,
 			autoClose: 2000,
 			withCloseButton: true,
 			loading: false,
@@ -125,7 +117,7 @@ export function showWarnNotification({
 		title: title || "警告",
 		message: message,
 		color: "orange",
-		icon: <Icon path={mdiExclamation} />,
+		icon: <MDIcon>exclamation</MDIcon>,
 	});
 }
 

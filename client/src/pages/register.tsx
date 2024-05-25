@@ -1,5 +1,4 @@
 import { useUserApi } from "@/api/user";
-import { useAuthStore } from "@/stores/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "@mantine/form";
@@ -8,13 +7,11 @@ import {
 	showSuccessNotification,
 } from "@/utils/notification";
 import { Box, TextInput, Button, ThemeIcon } from "@mantine/core";
-import Icon from "@mdi/react";
-import { mdiAccount, mdiEmail, mdiLock } from "@mdi/js";
+import MDIcon from "@/components/ui/MDIcon";
 
 export default function Page() {
 	const navigate = useNavigate();
 	const userApi = useUserApi();
-	const authStore = useAuthStore();
 
 	useEffect(() => {
 		document.title = "注册 - Edge";
@@ -112,7 +109,7 @@ export default function Page() {
 							size="lg"
 							leftSection={
 								<ThemeIcon variant={"transparent"}>
-									<Icon path={mdiAccount} />
+									<MDIcon>person</MDIcon>
 								</ThemeIcon>
 							}
 							key={form.key("username")}
@@ -124,7 +121,7 @@ export default function Page() {
 							size="lg"
 							leftSection={
 								<ThemeIcon variant={"transparent"}>
-									<Icon path={mdiAccount} />
+									<MDIcon>person</MDIcon>
 								</ThemeIcon>
 							}
 							key={form.key("nickname")}
@@ -136,7 +133,7 @@ export default function Page() {
 							size="lg"
 							leftSection={
 								<ThemeIcon variant={"transparent"}>
-									<Icon path={mdiEmail} />
+									<MDIcon>email</MDIcon>
 								</ThemeIcon>
 							}
 							key={form.key("email")}
@@ -148,7 +145,7 @@ export default function Page() {
 							size="lg"
 							leftSection={
 								<ThemeIcon variant={"transparent"}>
-									<Icon path={mdiLock} />
+									<MDIcon>lock</MDIcon>
 								</ThemeIcon>
 							}
 							mt={10}

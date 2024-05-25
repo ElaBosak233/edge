@@ -8,8 +8,7 @@ import {
 	showSuccessNotification,
 } from "@/utils/notification";
 import { Box, TextInput, Button, ThemeIcon } from "@mantine/core";
-import Icon from "@mdi/react";
-import { mdiAccount, mdiLock } from "@mdi/js";
+import MDIcon from "@/components/ui/MDIcon";
 
 export default function Page() {
 	const navigate = useNavigate();
@@ -108,7 +107,7 @@ export default function Page() {
 							size="lg"
 							leftSection={
 								<ThemeIcon variant={"transparent"}>
-									<Icon path={mdiAccount} />
+									<MDIcon>person</MDIcon>
 								</ThemeIcon>
 							}
 							key={form.key("username")}
@@ -120,7 +119,7 @@ export default function Page() {
 							size="lg"
 							leftSection={
 								<ThemeIcon variant={"transparent"}>
-									<Icon path={mdiLock} />
+									<MDIcon>lock</MDIcon>
 								</ThemeIcon>
 							}
 							mt={10}
