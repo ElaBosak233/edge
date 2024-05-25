@@ -34,7 +34,7 @@ WORKDIR /app
 COPY --from=backend-builder /app/target/*.jar app.jar
 
 # 复制前端构建结果到后端的静态资源目录
-COPY --from=frontend-builder /app/build /dist
+COPY --from=frontend-builder /app/dist /dist
 
 # 暴露端口
 EXPOSE 8080
