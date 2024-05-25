@@ -1,28 +1,48 @@
 package dev.e23.edge.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import jakarta.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @Entity
 @Table(name = "messages")
-public class Message {
+@EntityListeners(AuditingEntityListener.class)
+public class Message implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content")
     private String content;
 
-    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private String createdAt;
+    @CreatedDate
+    @Column(name = "created_at")
+    @JsonProperty("created_at")
+    private Date createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"password", "createdAt", "updatedAt"})
     private User user;
 
+    @JsonProperty("user_id")
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private Integer userId;
+
     @ManyToOne
-    @JoinColumn(name = "channel_id", nullable = false)
+    @JoinColumn(name = "channel_id")
+    @JsonIgnoreProperties({"messages"})
     private Channel channel;
+
+    @JsonProperty("channel_id")
+    @Column(name = "channel_id", insertable = false, updatable = false)
+    private Integer channelId;
+
+    public Message() {}
 }

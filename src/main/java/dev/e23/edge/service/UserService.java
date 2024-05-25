@@ -1,5 +1,6 @@
 package dev.e23.edge.service;
 
+import dev.e23.edge.model.request.UserRegisterRequest;
 import dev.e23.edge.model.response.UserResponse;
 import dev.e23.edge.model.User;
 import dev.e23.edge.model.request.UserLoginRequest;
@@ -7,6 +8,7 @@ import dev.e23.edge.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +40,24 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public Boolean login(UserLoginRequest userLoginRequest) {
+    public UserResponse login(UserLoginRequest userLoginRequest) {
         User user = userRepository.findByUsername(userLoginRequest.getUsername());
-        return bCryptPasswordEncoder.matches(userLoginRequest.getPassword(), user.getPassword());
+        if (user != null && bCryptPasswordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())) {
+            return new UserResponse(user);
+        }
+        return null;
+    }
+
+    public void register(UserRegisterRequest userRegisterRequest) {
+        User user = new User(
+                userRegisterRequest.getUsername(),
+                userRegisterRequest.getNickname(),
+                userRegisterRequest.getEmail(),
+                userRegisterRequest.getPassword()
+        );
+        String password = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(password);
+        userRepository.save(user);
     }
 
     public String updateUser() {

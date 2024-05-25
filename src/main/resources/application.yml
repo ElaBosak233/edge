@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+    datasource:
+        url: jdbc:sqlite:db.sqlite
+        driver-class-name: org.sqlite.JDBC
+
+    jpa:
+      database-platform: org.hibernate.community.dialect.SQLiteDialect
+      hibernate:
+        ddl-auto: update
+      show-sql: true
+
+    web:
+      resources:
+        static-locations:
+            - classpath:/static/
+            - classpath:/public/
+            - classpath:/resources/
+            - classpath:/META-INF/resources/
+            - classpath:/META-INF/resources/webjars/
+            - file:dist/

@@ -5,15 +5,19 @@ import dev.e23.edge.model.request.UserRegisterRequest;
 import dev.e23.edge.model.response.UserResponse;
 import dev.e23.edge.model.request.UserLoginRequest;
 import dev.e23.edge.service.UserService;
+import dev.e23.edge.util.JwtUtil;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
@@ -27,7 +31,7 @@ public class UserController {
     public ResponseEntity<Map<String, Object>> getUsers() {
         List<UserResponse> users = userService.getUsers();
         return ResponseEntity.ok(Map.of(
-                "code", 200,
+                "code", HttpStatus.OK.value(),
                 "data", users
         ));
     }
@@ -37,20 +41,23 @@ public class UserController {
         try {
             userService.createUser(user);
             return ResponseEntity.ok(Map.of(
-                    "code", 200,
+                    "code", HttpStatus.OK.value(),
                     "msg", "user created successfully"
             ));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of(
-                    "code", 400,
+                    "code", HttpStatus.BAD_REQUEST.value(),
                     "msg", e.getMessage()
             ));
         }
     }
 
     @PutMapping("/")
-    public String updateUser() {
-        return "User updated";
+    public ResponseEntity<Map<String, Object>> updateUser() {
+        return ResponseEntity.ok(Map.of(
+                "code", HttpStatus.OK.value(),
+                "msg", userService.updateUser()
+        ));
     }
 
     @DeleteMapping("/")
@@ -60,24 +67,38 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody UserLoginRequest userLoginRequest) {
-        Boolean success = userService.login(userLoginRequest);
-        if (success) {
+        UserResponse userResponse = userService.login(userLoginRequest);
+        if (userResponse != null) {
+            Map<String, String> payload = new HashMap<>();
+            payload.put("id", String.valueOf(userResponse.getId()));
+            payload.put("username", userResponse.getUsername());
+            String jwtToken = JwtUtil.getToken(payload);
             return ResponseEntity.ok(Map.of(
-                    "code", 200,
-                    "msg", "login successful"
+                    "code", HttpStatus.OK.value(),
+                    "msg", "login successful",
+                    "data", userResponse,
+                    "token", jwtToken
             ));
         }
         return ResponseEntity.badRequest().body(Map.of(
-                "code", 400,
+                "code", HttpStatus.BAD_REQUEST.value(),
                 "msg", "login failed"
         ));
     }
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> register(@RequestBody UserRegisterRequest userRegisterRequest) {
-        return ResponseEntity.ok(Map.of(
-                "code", 200,
-                "msg", "11"
-        ));
+        try {
+            userService.register(userRegisterRequest);
+            return ResponseEntity.ok(Map.of(
+                    "code", HttpStatus.OK.value(),
+                    "msg", "register successful"
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "code", HttpStatus.BAD_REQUEST.value(),
+                    "msg", e.getMessage()
+            ));
+        }
     }
 }
