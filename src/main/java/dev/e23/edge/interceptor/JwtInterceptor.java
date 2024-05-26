@@ -10,11 +10,15 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+拦截器，用于拦截请求，检查请求头中的 Token 是否有效
+有效则放行请求，无效则返回 401 错误（代表未授权）
+ */
 public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Map<String, Object> map = new HashMap<>();
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader("Authorization"); // 前端请求时，会将 Token 放在请求头的 Authorization 字段中
 
         try {
             JwtUtil.verify(token);

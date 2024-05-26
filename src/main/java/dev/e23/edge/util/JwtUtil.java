@@ -6,47 +6,29 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.beans.factory.annotation.Value;
 
 public class JwtUtil {
-    private static String TOKEN = "token!Q@W3e4r"; // 定义密钥
+    @Value("${jwt.secret}")
+    private static final String SecretKey = "fake_secret_key"; // 从配置文件中读取密钥
 
-    /**
-     * 生成 JWT 令牌
-     * @param map 传入的 Payload 数据
-     * @return 返回生成的令牌
-     */
     public static String getToken(Map<String,String> map){
         JWTCreator.Builder builder = JWT.create();
-
-        // 遍历传入的 Payload 数据，并添加到 Builder 中
-        map.forEach(builder::withClaim);
-
+        map.forEach(builder::withClaim); // 遍历传入的 Payload 数据，并添加到 Builder 中
         Calendar instance = Calendar.getInstance();
-        instance.add(Calendar.MINUTE,90);
-
-        // 设置过期时间为 7 秒后
+        instance.add(Calendar.MINUTE,90); // 设置过期时间为 90 分钟
         builder.withExpiresAt(instance.getTime());
-
-        // 使用 HMAC256 签名算法进行签名，并返回令牌字符串
-        return builder.sign(Algorithm.HMAC256(TOKEN));
+        return builder.sign(Algorithm.HMAC256(SecretKey)); // 使用 HMAC256 算法生成签名，作为 Token 返回
     }
 
-    /**
-     * 验证 JWT 令牌
-     * @param token 要验证的令牌字符串
-     */
+    // 验证 Token 是否合法以及是否过期
     public static void verify(String token){
         // 创建一个 JWTVerifier 实例，使用相同的密钥构建
-        JWT.require(Algorithm.HMAC256(TOKEN)).build().verify(token);
+        JWT.require(Algorithm.HMAC256(SecretKey)).build().verify(token);
     }
 
-    /**
-     * 获取令牌中的 Payload 数据
-     * @param token 要解析的令牌字符串
-     * @return 解码后的令牌对象（DecodedJWT）
-     */
+    // 从 Token 中解析数据
     public static DecodedJWT getToken(String token){
-        // 创建一个 JWTVerifier 实例，使用相同的密钥构建，并对令牌进行验证和解码
-        return JWT.require(Algorithm.HMAC256(TOKEN)).build().verify(token);
+        return JWT.require(Algorithm.HMAC256(SecretKey)).build().verify(token);
     }
 }

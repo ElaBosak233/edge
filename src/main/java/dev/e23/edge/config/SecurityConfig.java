@@ -13,10 +13,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-@Configuration
-@EnableWebSecurity
+@Configuration // 告诉 Spring 这是一个配置类
+@EnableWebSecurity // 启用 Spring Security
 public class SecurityConfig {
-
+    /*
+    配置 Spring Security 的安全过滤器链，这里配置了允许所有请求，但是在特定的请求上需要鉴权
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
@@ -29,6 +31,9 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /*
+    配置跨域资源共享，为了方便演示，允许所有请求
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
@@ -43,6 +48,10 @@ public class SecurityConfig {
         return source;
     }
 
+    /*
+    配置 BCryptPasswordEncoder，用于密码加密
+    注意这里也使用了 @Bean 注解，这样 Spring 会将这个对象放到容器中，方便后续使用 @Autowired 注入
+     */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();

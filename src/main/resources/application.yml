@@ -3,14 +3,14 @@ server:
 
 spring:
     datasource:
-        url: jdbc:sqlite:db.sqlite
-        driver-class-name: org.sqlite.JDBC
+        url: jdbc:sqlite:db.sqlite  # SQLite 数据库文件路径
+        driver-class-name: org.sqlite.JDBC  # SQLite 驱动
 
     jpa:
-      database-platform: org.hibernate.community.dialect.SQLiteDialect
+      database-platform: org.hibernate.community.dialect.SQLiteDialect  # 使用 SQLite 方言
       hibernate:
-        ddl-auto: update
-      show-sql: true
+        ddl-auto: update  # 自动更新表结构（即当数据库是空的时候，自动创建表结构）
+      show-sql: true  # 显示 SQL 语句
 
     web:
       resources:
@@ -20,4 +20,7 @@ spring:
             - classpath:/resources/
             - classpath:/META-INF/resources/
             - classpath:/META-INF/resources/webjars/
-            - file:dist/
+            - file:dist/  # 用于前端构建后的静态资源
+
+jwt:
+  secret: secret

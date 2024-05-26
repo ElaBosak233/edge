@@ -7,6 +7,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
+/*
+CommandLineRunner 接口是 Spring Boot 提供的一个接口，用于在应用启动后执行一些初始化操作
+这里我们实现了这个接口，用于在应用启动后初始化一个用户数据（如果数据库中没有用户数据的话）
+ */
 public class UserInitializer implements CommandLineRunner {
 
     private final UserService userService;
